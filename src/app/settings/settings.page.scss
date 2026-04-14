@@ -1,0 +1,117 @@
+.settings-container {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  .header-section {
+    text-align: center;
+    padding: 40px 20px;
+    color: white;
+    
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 700;
+    }
+    
+    p {
+      margin: 8px 0 0;
+      opacity: 0.9;
+    }
+  }
+  
+  .settings-list {
+    background: white;
+    margin: 0 20px 30px;
+    border-radius: 24px;
+    padding: 8px 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    
+    .settings-group {
+      margin-bottom: 8px;
+      
+      .group-title {
+        padding: 16px 20px 8px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #A78BFA;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+    
+    ion-item {
+      --padding-start: 20px;
+      --inner-padding-end: 20px;
+      --min-height: 56px;
+      --background: white;
+      --background-activated: #F8F0FF;
+      transition: all 0.2s ease;
+      
+      ion-icon {
+        color: #667eea;
+        font-size: 22px;
+        margin-right: 16px;
+      }
+      
+      ion-label {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+      
+      ion-toggle {
+        --track-background: #E8E8E8;
+        --track-background-checked: #C084FC;
+        --handle-background: white;
+        --handle-background-checked: white;
+      }
+    }
+    
+    .reset-item {
+      --background: #FFF5F5;
+      --background-activated: #FFE5E5;
+      
+      ion-icon {
+        color: #F472B6;
+      }
+      
+      ion-label {
+        color: #F472B6;
+      }
+    }
+    
+    .logout-item {
+      margin-top: 16px;
+      --background: #F8F0FF;
+      --background-activated: #F0E5FF;
+      
+      ion-icon {
+        color: #A78BFA;
+      }
+      
+      ion-label {
+        color: #667eea;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Dark mode support (optional)
+.dark .settings-container {
+  .settings-list {
+    background: #1a1a2e;
+    
+    .group-title {
+      color: #C084FC;
+    }
+    
+    ion-item {
+      --background: #1a1a2e;
+      --background-activated: #2a2a3e;
+      
+      ion-label {
+        color: #e0e0e0;
+      }
+    }
+  }
+}

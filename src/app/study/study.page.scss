@@ -1,0 +1,226 @@
+.study-container {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  .study-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px 0;
+    
+    .back-button {
+      --color: white;
+      margin: 0;
+      --padding-start: 0;
+      --padding-end: 0;
+    }
+    
+    .progress-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      .mini-logo {
+        width: 24px;
+        height: 24px;
+        // TODO: Add mini logo image
+      }
+      
+      .progress-text {
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+    
+    .placeholder {
+      width: 48px;
+    }
+  }
+  
+  .subject-label {
+    text-align: center;
+    padding: 16px;
+    
+    .subject-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 6px 16px;
+      border-radius: 20px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  
+  .flashcard-container {
+    padding: 20px;
+    height: 60vh;
+    perspective: 1000px;
+    
+    .flashcard {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      position: relative;
+      
+      .flashcard-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      }
+      
+      &.flipped .flashcard-inner {
+        transform: rotateY(180deg);
+      }
+      
+      .flashcard-front, .flashcard-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 32px 24px;
+        
+        .card-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          
+          .card-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+          
+          .card-text {
+            font-size: 24px;
+            line-height: 1.4;
+            color: #333;
+            font-weight: 500;
+            margin: 0;
+          }
+        }
+        
+        .flip-hint {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          color: #999;
+          font-size: 12px;
+          
+          ion-icon {
+            font-size: 16px;
+          }
+        }
+      }
+      
+      .flashcard-front {
+        background: white;
+        transform: rotateY(0deg);
+      }
+      
+      .flashcard-back {
+        background: white;
+        transform: rotateY(180deg);
+      }
+    }
+  }
+  
+  .response-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 0 20px 20px;
+    
+    .incorrect-btn {
+      --background: #ff6b6b;
+      --background-activated: #ff5252;
+      --border-radius: 50px;
+      height: 48px;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: none;
+    }
+    
+    .correct-btn {
+      --background: #51cf66;
+      --background-activated: #40c057;
+      --border-radius: 50px;
+      height: 48px;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: none;
+    }
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+    
+    .nav-btn {
+      --color: white;
+      font-size: 16px;
+      font-weight: 500;
+      text-transform: none;
+      
+      &[disabled] {
+        --color: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+  
+  .feedback-message {
+    padding: 0 20px 20px;
+    
+    .feedback-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      animation: slideUp 0.3s ease-out;
+      
+      &.correct-feedback {
+        background: rgba(81, 207, 102, 0.2);
+        color: #51cf66;
+      }
+      
+      &.incorrect-feedback {
+        background: rgba(255, 107, 107, 0.2);
+        color: #ff6b6b;
+      }
+      
+      ion-icon {
+        font-size: 24px;
+      }
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

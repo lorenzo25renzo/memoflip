@@ -1,0 +1,32 @@
+// src/theme/variables.scss
+/** Ionic CSS Variables **/
+:root {
+  /** primary (The main Purple from image 1) **/
+  --ion-color-primary: #8a7bcf;
+  --ion-color-primary-rgb: 138, 123, 207;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #796cb6;
+  --ion-color-primary-tint: #9688d4;
+
+  /** secondary (The Light Blue from image 0's Flip button) **/
+  --ion-color-secondary: #5dc2e1;
+  --ion-color-secondary-rgb: 93, 194, 225;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #52abc6;
+  --ion-color-secondary-tint: #6dc8e4;
+
+  /** light (The very light blue background from your images) **/
+  --ion-color-light: #e6f4f9;
+  --ion-color-light-rgb: 230, 244, 249;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #cad7db;
+  --ion-color-light-tint: #e8f5fa;
+
+  /** Custom success green for "Correct" from image 0 **/
+  --app-color-success-background: #d4edda;
+  --app-color-success-text: #155724;
+}// For information on how to create your own theme, please refer to:
+// https://ionicframework.com/docs/theming/

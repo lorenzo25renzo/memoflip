@@ -1,0 +1,85 @@
+<ion-content class="study-container">
+  <!-- Header with progress -->
+  <div class="study-header">
+    <ion-button fill="clear" (click)="goBack()" class="back-button">
+      <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    
+    <div class="progress-info">
+      <!-- TODO: Add MemoFlip mini logo here -->
+      <!-- <img src="assets/logo-small.png" alt="MemoFlip" class="mini-logo"> -->
+      <span class="progress-text">MemoFlip {{ currentCardIndex + 1 }}/{{ totalCards }}</span>
+    </div>
+    
+    <div class="placeholder"></div>
+  </div>
+
+  <!-- Subject Label -->
+  <div class="subject-label">
+    <span class="subject-badge">{{ currentDeck?.subject || 'Study' }}</span>
+  </div>
+
+  <!-- Flashcard Container -->
+  <div class="flashcard-container">
+    <div class="flashcard" [class.flipped]="isFlipped" (click)="flipCard()">
+      <div class="flashcard-inner">
+        <!-- Front Side -->
+        <div class="flashcard-front">
+          <div class="card-content">
+            <h3 class="card-label">Question</h3>
+            <p class="card-text">{{ currentCard?.question || 'No question available' }}</p>
+          </div>
+          <div class="flip-hint">
+            <ion-icon name="refresh-outline"></ion-icon>
+            <span>Tap to flip</span>
+          </div>
+        </div>
+
+        <!-- Back Side -->
+        <div class="flashcard-back">
+          <div class="card-content">
+            <h3 class="card-label">Answer</h3>
+            <p class="card-text">{{ currentCard?.answer || 'No answer available' }}</p>
+          </div>
+          <div class="flip-hint">
+            <ion-icon name="refresh-outline"></ion-icon>
+            <span>Tap to flip</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Response Buttons (shown when card is flipped) -->
+  <div class="response-buttons" *ngIf="isFlipped">
+    <ion-button expand="block" class="incorrect-btn" (click)="markIncorrect()">
+      <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+      Incorrect
+    </ion-button>
+    <ion-button expand="block" class="correct-btn" (click)="markCorrect()">
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      Correct
+    </ion-button>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="navigation-buttons">
+    <ion-button fill="clear" class="nav-btn" (click)="previousCard()" [disabled]="currentCardIndex === 0">
+      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+      Back
+    </ion-button>
+    
+    <ion-button fill="clear" class="nav-btn" (click)="nextCard()" [disabled]="currentCardIndex === totalCards - 1">
+      Next
+      <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Feedback Message -->
+  <div class="feedback-message" *ngIf="feedbackMessage" [class.show]="feedbackMessage">
+    <div class="feedback-content" [class.correct-feedback]="isCorrectFeedback" [class.incorrect-feedback]="!isCorrectFeedback">
+      <ion-icon [name]="isCorrectFeedback ? 'checkmark-circle' : 'close-circle'"></ion-icon>
+      <span>{{ feedbackMessage }}</span>
+    </div>
+  </div>
+</ion-content>

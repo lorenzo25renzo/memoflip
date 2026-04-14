@@ -1,0 +1,252 @@
+.home-container {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  .header-section {
+    text-align: center;
+    padding: 40px 20px 20px;
+    color: white;
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 16px;
+    }
+    
+    .app-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -1px;
+    }
+    
+    .tagline {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px 20px;
+    
+    .new-deck-btn {
+      --background: rgba(255, 255, 255, 0.2);
+      --background-activated: rgba(255, 255, 255, 0.3);
+      --border-radius: 50px;
+      --border-style: solid;
+      --border-width: 1px;
+      --border-color: rgba(255, 255, 255, 0.3);
+      height: 48px;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+      text-transform: none;
+    }
+    
+    .create-card-btn {
+      --background: white;
+      --background-activated: #f0f0f0;
+      --color: #667eea;
+      --border-radius: 50px;
+      height: 48px;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+      text-transform: none;
+      
+      ion-icon {
+        color: #667eea;
+      }
+    }
+  }
+  
+  .decks-section {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    padding: 24px 20px;
+    margin-top: 0;
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+      
+      h2 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+        color: #333;
+      }
+      
+      .deck-count {
+        font-size: 14px;
+        color: #888;
+      }
+    }
+    
+    .decks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      
+      .deck-card {
+        margin: 0;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+        
+        // Purple-themed girly colors
+        &:nth-child(1) {
+          background: linear-gradient(135deg, #667eea 0%, #8B6FE8 100%);
+          // Primary Purple
+          ion-card-title, ion-card-subtitle, .deck-subject {
+            color: white;
+          }
+        }
+        
+        &:nth-child(2) {
+          background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
+          // Soft Lavender
+          ion-card-title, ion-card-subtitle, .deck-subject {
+            color: white;
+          }
+        }
+        
+        &:nth-child(3) {
+          background: linear-gradient(135deg, #F0A6CA 0%, #F9BCD2 100%);
+          // Blush Pink (pairs with purple)
+          ion-card-title, ion-card-subtitle, .deck-subject {
+            color: white;
+          }
+        }
+        
+        &:nth-child(4) {
+          background: linear-gradient(135deg, #C084FC 0%, #D8B4FE 100%);
+          // Bright Lavender
+          ion-card-title, ion-card-subtitle, .deck-subject {
+            color: white;
+          }
+        }
+        
+        &:nth-child(5) {
+          background: linear-gradient(135deg, #F472B6 0%, #F9A8D4 100%);
+          // Pink
+          ion-card-title, ion-card-subtitle, .deck-subject {
+            color: white;
+          }
+        }
+        
+        &:nth-child(6) {
+          background: linear-gradient(135deg, #818CF8 0%, #A5B4FC 100%);
+          // Indigo
+          ion-card-title, ion-card-subtitle, .deck-subject {
+            color: white;
+          }
+        }
+        
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .delete-deck-btn {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          --color: rgba(255, 255, 255, 0.8);
+          --padding-start: 8px;
+          --padding-end: 8px;
+          height: 32px;
+          z-index: 10;
+        }
+        
+        .deck-icon {
+          width: 48px;
+          height: 48px;
+          margin: 16px auto 0;
+          display: block;
+        }
+        
+        ion-card-header {
+          padding-bottom: 8px;
+          
+          ion-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+          }
+          
+          ion-card-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+          }
+        }
+        
+        .deck-subject {
+          font-size: 12px;
+          opacity: 0.8;
+          margin-top: 8px;
+        }
+      }
+    }
+    
+    .no-decks {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+      
+      ion-icon {
+        font-size: 64px;
+        color: #ddd;
+        margin-bottom: 16px;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+  }
+  
+  .stats-section {
+    background: white;
+    padding: 0 20px 40px;
+    
+    .stats-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+      color: white;
+      
+      .stat-item {
+        text-align: center;
+        
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          margin-bottom: 8px;
+          border: 2px solid white;
+        }
+        
+        .stat-value {
+          font-size: 24px;
+          font-weight: 700;
+          margin-bottom: 4px;
+        }
+        
+        .stat-label {
+          font-size: 12px;
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}

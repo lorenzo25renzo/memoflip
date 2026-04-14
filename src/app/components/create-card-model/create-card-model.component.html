@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Create New Flashcard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="createCard()" class="create-card-form">
+    <ion-item>
+      <ion-label position="floating">Select Deck</ion-label>
+      <ion-select [(ngModel)]="selectedDeckId" name="deckId" required>
+        <ion-select-option *ngFor="let deck of decks" [value]="deck.id">
+          {{ deck.name }} ({{ deck.cardCount }} cards)
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Question</ion-label>
+      <ion-input [(ngModel)]="question" name="question" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Answer</ion-label>
+      <ion-textarea [(ngModel)]="answer" name="answer" rows="4" required></ion-textarea>
+    </ion-item>
+
+    <div class="form-buttons">
+      <ion-button expand="block" type="submit" [disabled]="!isFormValid()">
+        Create Card
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

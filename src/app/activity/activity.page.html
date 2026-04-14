@@ -1,0 +1,44 @@
+<ion-content class="activity-container">
+  <div class="header-section">
+    <h1>Your Activity</h1>
+    <p>Track your learning progress</p>
+  </div>
+
+  <div class="stats-overview">
+    <div class="stat-card">
+      <ion-icon name="time"></ion-icon>
+      <div class="stat-value">{{ totalStudyTime }}</div>
+      <div class="stat-label">Total Study Time</div>
+    </div>
+    
+    <div class="stat-card">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <div class="stat-value">{{ cardsMastered }}</div>
+      <div class="stat-label">Cards Mastered</div>
+    </div>
+  </div>
+
+  <div class="progress-card">
+    <h3>Weekly Progress</h3>
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="weeklyProgress"></div>
+    </div>
+    <div class="progress-text">{{ weeklyProgress }}% of weekly goal achieved</div>
+  </div>
+
+  <div class="recent-section">
+    <h3>Recent Activity</h3>
+    <div class="activity-list">
+      <div class="activity-item" *ngFor="let activity of recentActivity">
+        <div class="activity-icon">
+          <ion-icon name="calendar"></ion-icon>
+        </div>
+        <div class="activity-details">
+          <div class="activity-title">{{ activity.deck }}</div>
+          <div class="activity-subtitle">{{ activity.cards }} cards studied</div>
+          <div class="activity-time">{{ activity.time }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

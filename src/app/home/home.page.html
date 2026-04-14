@@ -1,0 +1,76 @@
+<ion-content class="home-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <!-- TODO: Add MemoFlip Logo Here -->
+    <!-- <img src="assets/logo.png" alt="MemoFlip Logo" class="logo"> -->
+    <h1 class="app-title">MemoFlip</h1>
+    <p class="tagline">Ready to study?</p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <ion-button expand="block" class="new-deck-btn" (click)="createNewDeck()">
+      <ion-icon name="albums-outline" slot="start"></ion-icon>
+      + New Deck
+    </ion-button>
+    
+    <ion-button expand="block" class="create-card-btn" (click)="openCreateCardModal()">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Create a Card
+    </ion-button>
+  </div>
+
+  <!-- My Decks Section -->
+  <div class="decks-section">
+    <div class="section-header">
+      <h2>My Decks</h2>
+      <span class="deck-count">{{ decks.length }} decks</span>
+    </div>
+
+    <div class="decks-grid" *ngIf="decks.length > 0; else noDecks">
+      <ion-card *ngFor="let deck of decks" class="deck-card" (click)="selectDeck(deck)">
+        <ion-button fill="clear" class="delete-deck-btn" (click)="deleteDeck(deck, $event)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        
+        <!-- TODO: Add deck icon/image here -->
+        <!-- <img src="assets/deck-icon.png" alt="Deck Icon" class="deck-icon"> -->
+        
+        <ion-card-header>
+          <ion-card-title>{{ deck.name }}</ion-card-title>
+          <ion-card-subtitle>{{ deck.cardCount }} cards</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="deck-subject">{{ deck.subject }}</div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    
+    <ng-template #noDecks>
+      <div class="no-decks">
+        <ion-icon name="albums-outline"></ion-icon>
+        <p>No decks yet. Create your first deck!</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- User Stats Section -->
+  <div class="stats-section">
+    <div class="stats-card">
+      <div class="stat-item">
+        <!-- TODO: Add user avatar image here -->
+        <!-- <img src="assets/avatar.png" alt="User Avatar" class="avatar"> -->
+        <div class="stat-value">{{ masteredCount }}</div>
+        <div class="stat-label">Mastered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ totalCards }}</div>
+        <div class="stat-label">Total Cards</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ masteryPercentage }}%</div>
+        <div class="stat-label">Mastery Rate</div>
+      </div>
+    </div>
+  </div>
+</ion-content>
