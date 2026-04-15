@@ -7,7 +7,8 @@ import {
   IonLabel, 
   IonIcon, 
   IonToggle,
-  AlertController
+  AlertController,
+  ToastController
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
@@ -31,6 +32,7 @@ export class SettingsPage {
 
   constructor(
     private alertController: AlertController,
+    private toastController: ToastController,
     private router: Router
   ) {
     addIcons({ 
@@ -76,12 +78,12 @@ export class SettingsPage {
   }
 
   async showToast(message: string) {
-    const toast = document.createElement('ion-toast');
-    toast.message = message;
-    toast.duration = 1500;
-    toast.position = 'bottom';
-    toast.color = 'success';
-    document.body.appendChild(toast);
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1500,
+      position: 'bottom',
+      color: 'success'
+    });
     await toast.present();
   }
 
@@ -101,7 +103,7 @@ export class SettingsPage {
           text: 'Apply', 
           handler: (value) => { 
             console.log('Language changed to:', value);
-            this.showToast('Language changed to ' + value);
+            this.showToast('Language changed');
           } 
         }
       ]
@@ -146,7 +148,13 @@ export class SettingsPage {
           text: 'Reset', 
           role: 'destructive',
           handler: () => {
+            // Clear all app data except users
+            const users = localStorage.getItem('memoflip_users');
             localStorage.clear();
+            // Restore users if needed
+            if (users) {
+              localStorage.setItem('memoflip_users', users);
+            }
             this.showToast('All data has been reset');
             setTimeout(() => { window.location.reload(); }, 1500);
           }
@@ -164,10 +172,23 @@ export class SettingsPage {
         { text: 'Cancel', role: 'cancel' },
         { 
           text: 'Log Out', 
-          handler: () => { 
-            this.showToast('Logged out successfully');
-            this.router.navigate(['/tabs/home']); 
-          } 
+          role: 'destructive',
+          handler: async () => {
+            // Clear current user session
+            localStorage.removeItem('memoflip_currentUser');
+            
+            // Show logout success message
+            const toast = await this.toastController.create({
+              message: 'Logged out successfully! 👋',
+              duration: 2000,
+              position: 'top',
+              color: 'success'
+            });
+            await toast.present();
+            
+            // Navigate to login page
+            this.router.navigate(['/login']);
+          }
         }
       ]
     });

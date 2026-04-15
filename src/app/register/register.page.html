@@ -1,0 +1,105 @@
+<ion-content class="register-container">
+  <div class="register-wrapper">
+    
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <!-- TODO: Add MemoFlip Logo Here -->
+      <!-- <img src="assets/logo.png" alt="MemoFlip Logo" class="logo"> -->
+      <h1 class="app-title">MemoFlip</h1>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h2>Create Account</h2>
+      <p>Start your learning journey with us</p>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="form-section">
+      <div class="input-group">
+        <ion-label class="input-label">Full Name</ion-label>
+        <ion-input 
+          type="text" 
+          placeholder="John Doe"
+          [(ngModel)]="name"
+          class="custom-input">
+        </ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Email Address</ion-label>
+        <ion-input 
+          type="email" 
+          placeholder="your.email@example.com"
+          [(ngModel)]="email"
+          class="custom-input">
+        </ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Password</ion-label>
+        <div class="password-wrapper">
+          <ion-input 
+            [type]="showPassword ? 'text' : 'password'" 
+            placeholder="**********"
+            [(ngModel)]="password"
+            class="custom-input">
+          </ion-input>
+          <ion-icon 
+            [name]="showPassword ? 'eye-off' : 'eye'" 
+            class="eye-icon"
+            (click)="togglePassword()">
+          </ion-icon>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Confirm Password</ion-label>
+        <div class="password-wrapper">
+          <ion-input 
+            [type]="showConfirmPassword ? 'text' : 'password'" 
+            placeholder="**********"
+            [(ngModel)]="confirmPassword"
+            class="custom-input">
+          </ion-input>
+          <ion-icon 
+            [name]="showConfirmPassword ? 'eye-off' : 'eye'" 
+            class="eye-icon"
+            (click)="toggleConfirmPassword()">
+          </ion-icon>
+        </div>
+      </div>
+
+      <ion-button expand="block" class="register-btn" (click)="register()">
+        SIGN UP
+      </ion-button>
+    </div>
+
+    <!-- OR Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">OR SIGN UP WITH</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Social Sign Up Buttons -->
+    <div class="social-section">
+      <ion-button expand="block" class="google-btn" (click)="googleSignUp()">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        Continue with Google
+      </ion-button>
+      
+      <ion-button expand="block" class="facebook-btn" (click)="facebookSignUp()">
+        <ion-icon name="logo-facebook" slot="start"></ion-icon>
+        Continue with Facebook
+      </ion-button>
+    </div>
+
+    <!-- Login Link -->
+    <div class="login-link">
+      <span>Already have an account? </span>
+      <ion-text class="login-text" (click)="goToLogin()">Sign In</ion-text>
+    </div>
+
+  </div>
+</ion-content>
