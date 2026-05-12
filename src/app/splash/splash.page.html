@@ -1,0 +1,42 @@
+<ion-content class="splash-container" (click)="startAnimation()" [class.animating]="isAnimating">
+  
+  <!-- Paused State (shows first) -->
+  <div class="paused-state" *ngIf="!isAnimating && !animationStarted">
+    <div class="paused-content">
+      <!-- TODO: Add MemoFlip Logo Here -->
+      <!-- <img src="assets/logo.png" alt="MemoFlip Logo" class="logo"> -->
+      <div class="logo-placeholder">
+        <span class="logo-emoji">📚</span>
+      </div>
+      <h1 class="app-title">MemoFlip</h1>
+      <p class="tagline">Learn Smarter, Not Harder</p>
+      
+      <div class="click-message">
+        <ion-icon name="finger-print-outline"></ion-icon>
+        <span>Click anywhere to continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animated State (shows after click) -->
+  <div class="animated-state" *ngIf="isAnimating">
+    <div class="logo-wrapper animate-logo">
+      <!-- TODO: Add MemoFlip Logo Here -->
+      <!-- <img src="assets/logo.png" alt="MemoFlip Logo" class="logo-animated"> -->
+      <div class="logo-animated-placeholder">
+        <span class="logo-emoji-large">📚</span>
+      </div>
+    </div>
+    
+    <div class="title-wrapper animate-title">
+      <h1 class="app-title-animated">MemoFlip</h1>
+    </div>
+    
+    <div class="dots-container animate-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+</ion-content>

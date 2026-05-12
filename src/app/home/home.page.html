@@ -1,8 +1,10 @@
 <ion-content class="home-container">
-  <!-- Header Section -->
+  <!-- Header Section with Logo -->
   <div class="header-section">
-    <!-- TODO: Add MemoFlip Logo Here -->
-    <!-- <img src="assets/logo.png" alt="MemoFlip Logo" class="logo"> -->
+    <!-- TODO: Add MemoFlip Logo Here - Put logo.png in src/assets/ -->
+    <img src="assets/logo.png" alt="MemoFlip Logo" class="logo">
+    
+    
     <h1 class="app-title">MemoFlip</h1>
     <p class="tagline">Ready to study?</p>
   </div>
@@ -33,9 +35,6 @@
           <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
         </ion-button>
         
-        <!-- TODO: Add deck icon/image here -->
-        <!-- <img src="assets/deck-icon.png" alt="Deck Icon" class="deck-icon"> -->
-        
         <ion-card-header>
           <ion-card-title>{{ deck.name }}</ion-card-title>
           <ion-card-subtitle>{{ deck.cardCount }} cards</ion-card-subtitle>
@@ -58,8 +57,6 @@
   <div class="stats-section">
     <div class="stats-card">
       <div class="stat-item">
-        <!-- TODO: Add user avatar image here -->
-        <!-- <img src="assets/avatar.png" alt="User Avatar" class="avatar"> -->
         <div class="stat-value">{{ masteredCount }}</div>
         <div class="stat-label">Mastered</div>
       </div>

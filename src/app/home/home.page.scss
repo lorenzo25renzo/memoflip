@@ -12,6 +12,21 @@
       margin-bottom: 16px;
     }
     
+    .logo-placeholder {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      .logo-emoji {
+        font-size: 45px;
+      }
+    }
+    
     .app-title {
       font-size: 42px;
       font-weight: 700;
@@ -100,10 +115,8 @@
         position: relative;
         overflow: hidden;
         
-        // Purple-themed girly colors
         &:nth-child(1) {
           background: linear-gradient(135deg, #667eea 0%, #8B6FE8 100%);
-          // Primary Purple
           ion-card-title, ion-card-subtitle, .deck-subject {
             color: white;
           }
@@ -111,7 +124,6 @@
         
         &:nth-child(2) {
           background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
-          // Soft Lavender
           ion-card-title, ion-card-subtitle, .deck-subject {
             color: white;
           }
@@ -119,7 +131,6 @@
         
         &:nth-child(3) {
           background: linear-gradient(135deg, #F0A6CA 0%, #F9BCD2 100%);
-          // Blush Pink (pairs with purple)
           ion-card-title, ion-card-subtitle, .deck-subject {
             color: white;
           }
@@ -127,7 +138,6 @@
         
         &:nth-child(4) {
           background: linear-gradient(135deg, #C084FC 0%, #D8B4FE 100%);
-          // Bright Lavender
           ion-card-title, ion-card-subtitle, .deck-subject {
             color: white;
           }
@@ -135,7 +145,6 @@
         
         &:nth-child(5) {
           background: linear-gradient(135deg, #F472B6 0%, #F9A8D4 100%);
-          // Pink
           ion-card-title, ion-card-subtitle, .deck-subject {
             color: white;
           }
@@ -143,7 +152,6 @@
         
         &:nth-child(6) {
           background: linear-gradient(135deg, #818CF8 0%, #A5B4FC 100%);
-          // Indigo
           ion-card-title, ion-card-subtitle, .deck-subject {
             color: white;
           }
@@ -163,13 +171,6 @@
           --padding-end: 8px;
           height: 32px;
           z-index: 10;
-        }
-        
-        .deck-icon {
-          width: 48px;
-          height: 48px;
-          margin: 16px auto 0;
-          display: block;
         }
         
         ion-card-header {
@@ -227,14 +228,6 @@
       
       .stat-item {
         text-align: center;
-        
-        .avatar {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          margin-bottom: 8px;
-          border: 2px solid white;
-        }
         
         .stat-value {
           font-size: 24px;

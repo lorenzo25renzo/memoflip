@@ -66,11 +66,12 @@ export class CreateCardModalComponent {
         answer: this.answer.trim()
       });
       
+      // Dismiss with true to indicate card was created
       this.modalController.dismiss(true);
     }
   }
 
   dismiss() {
-    this.modalController.dismiss();
+    this.modalController.dismiss(false);
   }
 }

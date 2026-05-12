@@ -29,6 +29,7 @@ export interface StudyStats {
   providedIn: 'root'
 })
 export class FlashcardService {
+  private currentUserId: string = '';
   private decks: Deck[] = [];
   private flashcards: Flashcard[] = [];
   private stats: StudyStats = {
@@ -40,50 +41,73 @@ export class FlashcardService {
   };
 
   constructor() {
-    this.loadData();
-    if (this.decks.length === 0) {
-      this.initializeSampleData();
+    this.loadCurrentUser();
+  }
+
+  private loadCurrentUser() {
+    const currentUser = localStorage.getItem('memoflip_currentUser');
+    if (currentUser) {
+      const user = JSON.parse(currentUser);
+      this.currentUserId = user.id || user.email;
+      this.loadUserData();
     }
   }
 
-  private loadData() {
-    const savedDecks = localStorage.getItem('memoflip_decks');
-    const savedFlashcards = localStorage.getItem('memoflip_flashcards');
-    const savedStats = localStorage.getItem('memoflip_stats');
+  private loadUserData() {
+    if (!this.currentUserId) return;
+    
+    const savedDecks = localStorage.getItem(`memoflip_decks_${this.currentUserId}`);
+    const savedFlashcards = localStorage.getItem(`memoflip_flashcards_${this.currentUserId}`);
+    const savedStats = localStorage.getItem(`memoflip_stats_${this.currentUserId}`);
 
     if (savedDecks) {
       this.decks = JSON.parse(savedDecks);
+    } else {
+      this.decks = []; // Empty decks for new user
     }
+    
     if (savedFlashcards) {
       this.flashcards = JSON.parse(savedFlashcards);
+    } else {
+      this.flashcards = []; // Empty flashcards for new user
     }
+    
     if (savedStats) {
       this.stats = JSON.parse(savedStats);
+    } else {
+      this.resetStats();
     }
   }
 
-  private saveData() {
-    localStorage.setItem('memoflip_decks', JSON.stringify(this.decks));
-    localStorage.setItem('memoflip_flashcards', JSON.stringify(this.flashcards));
-    localStorage.setItem('memoflip_stats', JSON.stringify(this.stats));
+  private resetStats() {
+    this.stats = {
+      totalCardsReviewed: 0,
+      correctAnswers: 0,
+      incorrectAnswers: 0,
+      streak: 0,
+      lastStudyDate: new Date().toISOString()
+    };
   }
 
-  private initializeSampleData() {
-    this.decks = [
-      { id: 1, name: 'Biology 101', cardCount: 3, subject: 'Biology', createdAt: new Date() },
-      { id: 2, name: 'History of Art', cardCount: 2, subject: 'History', createdAt: new Date() },
-      { id: 3, name: 'Java Basics', cardCount: 0, subject: 'Programming', createdAt: new Date() }
-    ];
+  private saveUserData() {
+    if (!this.currentUserId) return;
+    
+    localStorage.setItem(`memoflip_decks_${this.currentUserId}`, JSON.stringify(this.decks));
+    localStorage.setItem(`memoflip_flashcards_${this.currentUserId}`, JSON.stringify(this.flashcards));
+    localStorage.setItem(`memoflip_stats_${this.currentUserId}`, JSON.stringify(this.stats));
+  }
 
-    this.flashcards = [
-      { id: 1, deckId: 1, question: 'What is the powerhouse of the cell?', answer: 'Mitochondria', mastered: false, timesReviewed: 0 },
-      { id: 2, deckId: 1, question: 'What is the main function of the mitochondrion?', answer: 'To produce energy (ATP) through cellular respiration', mastered: false, timesReviewed: 0 },
-      { id: 3, deckId: 1, question: 'What organelle contains digestive enzymes?', answer: 'Lysosomes', mastered: false, timesReviewed: 0 },
-      { id: 4, deckId: 2, question: 'Who painted the Mona Lisa?', answer: 'Leonardo da Vinci', mastered: false, timesReviewed: 0 },
-      { id: 5, deckId: 2, question: 'What artistic movement was Van Gogh part of?', answer: 'Post-Impressionism', mastered: false, timesReviewed: 0 }
-    ];
+  setCurrentUser(user: any) {
+    this.currentUserId = user.id || user.email;
+    this.loadUserData();
+  }
 
-    this.saveData();
+  clearCurrentUser(): void {
+    this.currentUserId = '';
+    this.decks = [];
+    this.flashcards = [];
+    this.resetStats();
+    this.saveUserData();
   }
 
   getDecks(): Deck[] {
@@ -109,7 +133,7 @@ export class FlashcardService {
       deck.cardCount = this.flashcards.filter(f => f.deckId === flashcard.deckId).length;
     }
     
-    this.saveData();
+    this.saveUserData();
   }
 
   addDeck(deck: Omit<Deck, 'id' | 'cardCount' | 'createdAt'>): void {
@@ -120,13 +144,13 @@ export class FlashcardService {
       cardCount: 0, 
       createdAt: new Date() 
     });
-    this.saveData();
+    this.saveUserData();
   }
 
   deleteDeck(deckId: number): void {
     this.decks = this.decks.filter(d => d.id !== deckId);
     this.flashcards = this.flashcards.filter(f => f.deckId !== deckId);
-    this.saveData();
+    this.saveUserData();
   }
 
   deleteFlashcard(cardId: number): void {
@@ -137,7 +161,7 @@ export class FlashcardService {
       if (deck) {
         deck.cardCount = this.flashcards.filter(f => f.deckId === card.deckId).length;
       }
-      this.saveData();
+      this.saveUserData();
     }
   }
 
@@ -160,7 +184,7 @@ export class FlashcardService {
       }
       this.stats.lastStudyDate = new Date().toISOString();
       
-      this.saveData();
+      this.saveUserData();
     }
   }
 

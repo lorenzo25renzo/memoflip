@@ -1,44 +1,111 @@
 <ion-content class="activity-container">
-  <div class="header-section">
-    <h1>Your Activity</h1>
-    <p>Track your learning progress</p>
-  </div>
-
-  <div class="stats-overview">
-    <div class="stat-card">
-      <ion-icon name="time"></ion-icon>
-      <div class="stat-value">{{ totalStudyTime }}</div>
-      <div class="stat-label">Total Study Time</div>
-    </div>
+  
+  <!-- Purple Header Background -->
+  <div class="purple-header"></div>
+  
+  <div class="activity-wrapper">
     
-    <div class="stat-card">
-      <ion-icon name="checkmark-circle"></ion-icon>
-      <div class="stat-value">{{ cardsMastered }}</div>
-      <div class="stat-label">Cards Mastered</div>
-    </div>
-  </div>
-
-  <div class="progress-card">
-    <h3>Weekly Progress</h3>
-    <div class="progress-bar">
-      <div class="progress-fill" [style.width.%]="weeklyProgress"></div>
-    </div>
-    <div class="progress-text">{{ weeklyProgress }}% of weekly goal achieved</div>
-  </div>
-
-  <div class="recent-section">
-    <h3>Recent Activity</h3>
-    <div class="activity-list">
-      <div class="activity-item" *ngFor="let activity of recentActivity">
-        <div class="activity-icon">
-          <ion-icon name="calendar"></ion-icon>
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <div class="logo-container">
+        <div class="logo-placeholder">
+          <span class="logo-emoji">📊</span>
         </div>
-        <div class="activity-details">
-          <div class="activity-title">{{ activity.deck }}</div>
-          <div class="activity-subtitle">{{ activity.cards }} cards studied</div>
-          <div class="activity-time">{{ activity.time }}</div>
+        <h1 class="app-title">Your Activity</h1>
+        <p class="subtitle">Track your learning progress</p>
+      </div>
+    </div>
+
+    <!-- White Card Content -->
+    <div class="white-card">
+      
+      <!-- Stats Overview -->
+      <div class="stats-overview">
+        <div class="stat-card">
+          <ion-icon name="time"></ion-icon>
+          <div class="stat-value">{{ stats.totalCardsReviewed }}</div>
+          <div class="stat-label">Cards Reviewed</div>
+        </div>
+        
+        <div class="stat-card">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <div class="stat-value">{{ masteredCards }}</div>
+          <div class="stat-label">Mastered Cards</div>
+        </div>
+
+        <div class="stat-card">
+          <ion-icon name="flame"></ion-icon>
+          <div class="stat-value">{{ stats.streak }}</div>
+          <div class="stat-label">Day Streak</div>
         </div>
       </div>
+
+      <!-- Progress Stats -->
+      <div class="progress-section">
+        <div class="progress-item">
+          <div class="progress-header">
+            <span>Mastery Rate</span>
+            <span>{{ masteryRate | number: '1.0-0' }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="masteryRate"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-header">
+            <span>Accuracy</span>
+            <span>{{ accuracy | number: '1.0-0' }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill accuracy-fill" [style.width.%]="accuracy"></div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-header">
+            <span>Total Cards Created</span>
+            <span>{{ totalCards }}</span>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-header">
+            <span>Last Study Session</span>
+            <span>{{ getLastStudyDate() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity Section -->
+      <div class="recent-section">
+        <h3>Recent Activity</h3>
+        
+        <div class="activity-list" *ngIf="recentActivity.length > 0; else noActivity">
+          <div class="activity-item" *ngFor="let activity of recentActivity">
+            <div class="activity-icon">
+              <ion-icon name="calendar"></ion-icon>
+            </div>
+            <div class="activity-details">
+              <div class="activity-title">{{ activity.deck }}</div>
+              <div class="activity-subtitle">{{ activity.cards }} card(s) studied</div>
+              <div class="activity-time">{{ activity.time }}</div>
+            </div>
+            <div class="activity-status" [class.mastered]="activity.mastered === 'Mastered ✓'">
+              {{ activity.mastered }}
+            </div>
+          </div>
+        </div>
+        
+        <ng-template #noActivity>
+          <div class="no-activity">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <p>No activity yet</p>
+            <p class="hint">Start studying to see your progress!</p>
+          </div>
+        </ng-template>
+      </div>
+
     </div>
   </div>
 </ion-content>

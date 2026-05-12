@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { mail, lockClosed, eye, eyeOff, logoGoogle, logoFacebook } from 'ionicons/icons';
+import { FlashcardService } from '../services/flashcard.service';
 
 @Component({
   selector: 'app-login',
@@ -28,91 +29,47 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private flashcardService: FlashcardService
   ) {
     addIcons({ mail, lockClosed, eye, eyeOff, logoGoogle, logoFacebook });
   }
 
   ngOnInit() {
-    this.initializeDemoUsers();
-    // Check if user is already logged in
     const currentUser = localStorage.getItem('memoflip_currentUser');
     if (currentUser) {
+      const user = JSON.parse(currentUser);
+      this.flashcardService.setCurrentUser(user);
       this.router.navigate(['/tabs/home']);
     }
   }
 
-  initializeDemoUsers() {
-    // Demo users for testing
-    const demoUsers = [
-      { 
-        id: 1, 
-        name: 'Demo User', 
-        email: 'miranda@memoflip.com', 
-        password: 'demo123',
-        createdAt: new Date().toISOString()
-      },
-      { 
-        id: 2, 
-        name: 'Test User', 
-        email: 'user@example.com', 
-        password: 'password',
-        createdAt: new Date().toISOString()
-      },
-      { 
-        id: 3, 
-        name: 'John Doe', 
-        email: 'john@example.com', 
-        password: 'john123',
-        createdAt: new Date().toISOString()
-      }
-    ];
-    
-    // Check if users exist in localStorage
-    const existingUsers = localStorage.getItem('memoflip_users');
-    if (!existingUsers) {
-      localStorage.setItem('memoflip_users', JSON.stringify(demoUsers));
-      console.log('Demo users initialized');
-    } else {
-      console.log('Users already exist:', JSON.parse(existingUsers));
-    }
-  }
-
+  // Toggle password visibility
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
   async login() {
-    console.log('Login attempt with:', this.email, this.password);
-    
     if (!this.email || !this.password) {
       await this.showToast('Please fill in all fields', 'warning');
       return;
     }
 
-    // Get registered users from localStorage
     const usersData = localStorage.getItem('memoflip_users');
-    console.log('Users from localStorage:', usersData);
-    
     if (!usersData) {
-      await this.showToast('No users found. Please register first.', 'danger');
+      await this.showToast('No users found. Please sign up first.', 'danger');
       return;
     }
     
     const users = JSON.parse(usersData);
-    console.log('Parsed users:', users);
-    
-    // Find user by email and password
     const user = users.find((u: any) => u.email === this.email && u.password === this.password);
-    console.log('Found user:', user);
 
     if (user) {
-      // Save login session
       localStorage.setItem('memoflip_currentUser', JSON.stringify(user));
+      this.flashcardService.setCurrentUser(user);
       await this.showToast('Welcome back, ' + user.name + '! 🎉', 'success');
       this.router.navigate(['/tabs/home']);
     } else {
-      // Check if email exists but password wrong
       const emailExists = users.find((u: any) => u.email === this.email);
       if (emailExists) {
         await this.showToast('Incorrect password. Please try again.', 'danger');
@@ -123,15 +80,75 @@ export class LoginPage implements OnInit {
   }
 
   async googleLogin() {
-    await this.showToast('Google login coming soon! Use demo account for now.', 'info');
+    const googleUser = {
+      id: 'google_' + Date.now(),
+      name: 'Gladys Miranda',
+      email: 'gladys.miranda@gmail.com',
+      password: 'google_auth_' + Date.now(),
+      provider: 'google',
+      avatar: 'https://ui-avatars.com/api/?name=Gladys+Miranda&background=667eea&color=fff',
+      createdAt: new Date().toISOString()
+    };
+    
+    let users = [];
+    const existingUsers = localStorage.getItem('memoflip_users');
+    if (existingUsers) {
+      users = JSON.parse(existingUsers);
+    }
+    
+    let existingUser = users.find((u: any) => u.email === googleUser.email && u.provider === 'google');
+    
+    if (!existingUser) {
+      users.push(googleUser);
+      localStorage.setItem('memoflip_users', JSON.stringify(users));
+      existingUser = googleUser;
+    }
+    
+    localStorage.setItem('memoflip_currentUser', JSON.stringify(existingUser));
+    this.flashcardService.setCurrentUser(existingUser);
+    
+    await this.showToast('Welcome, Gladys Miranda! 🎉', 'success');
+    this.router.navigate(['/tabs/home']);
   }
 
   async facebookLogin() {
-    await this.showToast('Facebook login coming soon! Use demo account for now.', 'info');
+    const facebookUser = {
+      id: 'facebook_' + Date.now(),
+      name: 'Gladys Miranda',
+      email: 'gladys.miranda@facebook.com',
+      password: 'fb_auth_' + Date.now(),
+      provider: 'facebook',
+      avatar: 'https://ui-avatars.com/api/?name=Gladys+Miranda&background=4267B2&color=fff',
+      createdAt: new Date().toISOString()
+    };
+    
+    let users = [];
+    const existingUsers = localStorage.getItem('memoflip_users');
+    if (existingUsers) {
+      users = JSON.parse(existingUsers);
+    }
+    
+    let existingUser = users.find((u: any) => u.email === facebookUser.email && u.provider === 'facebook');
+    
+    if (!existingUser) {
+      users.push(facebookUser);
+      localStorage.setItem('memoflip_users', JSON.stringify(users));
+      existingUser = facebookUser;
+    }
+    
+    localStorage.setItem('memoflip_currentUser', JSON.stringify(existingUser));
+    this.flashcardService.setCurrentUser(existingUser);
+    
+    await this.showToast('Welcome, Gladys Miranda! 🎉', 'success');
+    this.router.navigate(['/tabs/home']);
   }
 
   goToRegister() {
     this.router.navigate(['/register']);
+  }
+
+  goToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
   }
 
   async showToast(message: string, color: string) {
@@ -139,13 +156,7 @@ export class LoginPage implements OnInit {
       message: message,
       duration: 3000,
       position: 'top',
-      color: color,
-      buttons: [
-        {
-          text: 'Dismiss',
-          role: 'cancel'
-        }
-      ]
+      color: color
     });
     await toast.present();
   }

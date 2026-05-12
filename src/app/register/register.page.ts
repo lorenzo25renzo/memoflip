@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { mail, lockClosed, eye, eyeOff, logoGoogle, logoFacebook, person } from 'ionicons/icons';
+import { FlashcardService } from '../services/flashcard.service';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +32,8 @@ export class RegisterPage {
 
   constructor(
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private flashcardService: FlashcardService
   ) {
     addIcons({ mail, lockClosed, eye, eyeOff, logoGoogle, logoFacebook, person });
   }
@@ -45,8 +47,6 @@ export class RegisterPage {
   }
 
   async register() {
-    console.log('Register attempt:', { name: this.name, email: this.email });
-    
     if (!this.name || !this.email || !this.password || !this.confirmPassword) {
       await this.showToast('Please fill in all fields', 'warning');
       return;
@@ -67,44 +67,105 @@ export class RegisterPage {
       return;
     }
 
-    // Get existing users
     let users = [];
     const existingUsers = localStorage.getItem('memoflip_users');
     if (existingUsers) {
       users = JSON.parse(existingUsers);
     }
     
-    // Check if email already exists
     if (users.find((u: any) => u.email === this.email)) {
       await this.showToast('Email already registered. Please login.', 'danger');
       return;
     }
 
-    // Create new user
     const newUser = {
-      id: Date.now(),
+      id: Date.now().toString(),
       name: this.name,
       email: this.email,
       password: this.password,
+      provider: 'email',
       createdAt: new Date().toISOString()
     };
 
     users.push(newUser);
     localStorage.setItem('memoflip_users', JSON.stringify(users));
     
-    console.log('New user registered:', newUser);
-    console.log('All users:', users);
-    
     await this.showToast('Account created successfully! Please login.', 'success');
     this.router.navigate(['/login']);
   }
 
   async googleSignUp() {
-    await this.showToast('Google sign up coming soon! Use email registration.', 'info');
+    // Google user info
+    const googleUser = {
+      id: 'google_' + Date.now(),
+      name: 'Gladys Miranda',
+      email: 'gladys.miranda@gmail.com',
+      password: 'google_auth_' + Date.now(),
+      provider: 'google',
+      avatar: 'https://ui-avatars.com/api/?name=Gladys+Miranda&background=667eea&color=fff',
+      createdAt: new Date().toISOString()
+    };
+    
+    // Save or get existing user
+    let users = [];
+    const existingUsers = localStorage.getItem('memoflip_users');
+    if (existingUsers) {
+      users = JSON.parse(existingUsers);
+    }
+    
+    // Check if Google user already exists
+    let existingUser = users.find((u: any) => u.email === googleUser.email && u.provider === 'google');
+    
+    if (!existingUser) {
+      // Add new Google user
+      users.push(googleUser);
+      localStorage.setItem('memoflip_users', JSON.stringify(users));
+      existingUser = googleUser;
+    }
+    
+    // Set as current user and login
+    localStorage.setItem('memoflip_currentUser', JSON.stringify(existingUser));
+    this.flashcardService.setCurrentUser(existingUser);
+    
+    await this.showToast('Welcome, Gladys Miranda! 🎉', 'success');
+    this.router.navigate(['/tabs/home']);
   }
 
   async facebookSignUp() {
-    await this.showToast('Facebook sign up coming soon! Use email registration.', 'info');
+    // Facebook user info
+    const facebookUser = {
+      id: 'facebook_' + Date.now(),
+      name: 'Gladys Miranda',
+      email: 'gladys.miranda@facebook.com',
+      password: 'fb_auth_' + Date.now(),
+      provider: 'facebook',
+      avatar: 'https://ui-avatars.com/api/?name=Gladys+Miranda&background=4267B2&color=fff',
+      createdAt: new Date().toISOString()
+    };
+    
+    // Save or get existing user
+    let users = [];
+    const existingUsers = localStorage.getItem('memoflip_users');
+    if (existingUsers) {
+      users = JSON.parse(existingUsers);
+    }
+    
+    // Check if Facebook user already exists
+    let existingUser = users.find((u: any) => u.email === facebookUser.email && u.provider === 'facebook');
+    
+    if (!existingUser) {
+      // Add new Facebook user
+      users.push(facebookUser);
+      localStorage.setItem('memoflip_users', JSON.stringify(users));
+      existingUser = facebookUser;
+    }
+    
+    // Set as current user and login
+    localStorage.setItem('memoflip_currentUser', JSON.stringify(existingUser));
+    this.flashcardService.setCurrentUser(existingUser);
+    
+    await this.showToast('Welcome, Gladys Miranda! 🎉', 'success');
+    this.router.navigate(['/tabs/home']);
   }
 
   goToLogin() {

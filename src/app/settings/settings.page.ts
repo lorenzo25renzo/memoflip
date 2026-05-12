@@ -17,6 +17,7 @@ import {
   helpCircle, logOut, trash, informationCircle 
 } from 'ionicons/icons';
 import { Router } from '@angular/router';
+import { FlashcardService } from '../services/flashcard.service';
 
 @Component({
   selector: 'app-settings',
@@ -33,7 +34,8 @@ export class SettingsPage {
   constructor(
     private alertController: AlertController,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private flashcardService: FlashcardService  // Add this
   ) {
     addIcons({ 
       moon, notifications, play, language, cloudOutline, 
@@ -148,12 +150,9 @@ export class SettingsPage {
           text: 'Reset', 
           role: 'destructive',
           handler: () => {
-            // Clear all app data except users
-            const users = localStorage.getItem('memoflip_users');
-            localStorage.clear();
-            // Restore users if needed
-            if (users) {
-              localStorage.setItem('memoflip_users', users);
+            // Clear current user's data
+            if (this.flashcardService) {
+              this.flashcardService.clearCurrentUser();
             }
             this.showToast('All data has been reset');
             setTimeout(() => { window.location.reload(); }, 1500);
@@ -176,8 +175,8 @@ export class SettingsPage {
           handler: async () => {
             // Clear current user session
             localStorage.removeItem('memoflip_currentUser');
+            this.flashcardService.clearCurrentUser();
             
-            // Show logout success message
             const toast = await this.toastController.create({
               message: 'Logged out successfully! 👋',
               duration: 2000,
@@ -185,8 +184,6 @@ export class SettingsPage {
               color: 'success'
             });
             await toast.present();
-            
-            // Navigate to login page
             this.router.navigate(['/login']);
           }
         }

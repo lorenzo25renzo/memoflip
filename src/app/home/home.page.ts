@@ -11,7 +11,9 @@ import {
   IonButton,
   IonIcon,
   ModalController,
-  AlertController
+  AlertController,
+  IonRefresher,
+  IonRefresherContent
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, albumsOutline, trashOutline } from 'ionicons/icons';
@@ -51,12 +53,17 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
     this.loadDecks();
     this.loadStats();
   }
 
   loadDecks() {
     this.decks = this.flashcardService.getDecks();
+    console.log('Decks loaded:', this.decks.length); // Debug log
   }
 
   loadStats() {
@@ -78,7 +85,7 @@ export class HomePage implements OnInit {
       header: 'Empty Deck',
       message: `"${deck.name}" has no cards yet. Would you like to add some cards?`,
       buttons: [
-        {
+        { 
           text: 'Later',
           role: 'cancel'
         },
@@ -121,8 +128,8 @@ export class HomePage implements OnInit {
                 name: data.name,
                 subject: data.subject
               });
-              this.loadDecks();
-              this.loadStats();
+              // Refresh the data immediately
+              this.loadData();
               this.showSuccessAlert('Deck created successfully!');
             } else {
               this.showErrorAlert('Please fill in both fields');
@@ -149,8 +156,8 @@ export class HomePage implements OnInit {
           role: 'destructive',
           handler: () => {
             this.flashcardService.deleteDeck(deck.id);
-            this.loadDecks();
-            this.loadStats();
+            // Refresh the data immediately
+            this.loadData();
           }
         }
       ]
@@ -196,11 +203,18 @@ export class HomePage implements OnInit {
     
     modal.onDidDismiss().then((result) => {
       if (result.data) {
-        this.loadDecks();
-        this.loadStats();
+        // Refresh data when modal closes and card was created
+        this.loadData();
       }
     });
     
     await modal.present();
   }
+
+  async doRefresh(event: any) {
+  this.loadData();
+  setTimeout(() => {
+    event.target.complete();
+  }, 500);
+}
 }
