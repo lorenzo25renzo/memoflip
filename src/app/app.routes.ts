@@ -23,9 +23,18 @@ export const routes: Routes = [
     loadComponent: () => import('./forgot-password/forgot-password.page').then(m => m.ForgotPasswordPage)
   },
   {
+    path: 'about',
+    loadComponent: () => import('./about/about.page').then(m => m.AboutPage)
+  },
+  {
     path: 'tabs',
     loadComponent: () => import('./tabs/tabs.page').then(m => m.TabsPage),
     children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
       {
         path: 'home',
         loadComponent: () => import('./home/home.page').then(m => m.HomePage)
@@ -49,7 +58,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'study/:id',
-    loadComponent: () => import('./study/study.page').then(m => m.StudyPage)
+    path: 'about',
+    loadComponent: () => import('./about/about.page').then( m => m.AboutPage)
   }
 ];

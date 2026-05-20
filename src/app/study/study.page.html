@@ -1,16 +1,15 @@
+<!-- study/study.page.html -->
 <ion-content class="study-container">
   <!-- Header with progress -->
   <div class="study-header">
     <ion-button fill="clear" (click)="goBack()" class="back-button">
       <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
     </ion-button>
-    
+
     <div class="progress-info">
-      <!-- TODO: Add MemoFlip mini logo here -->
-      <!-- <img src="assets/logo-small.png" alt="MemoFlip" class="mini-logo"> -->
-      <span class="progress-text">MemoFlip {{ currentCardIndex + 1 }}/{{ totalCards }}</span>
+      <span class="progress-text">{{ currentCardIndex + 1 }} / {{ totalCards }}</span>
     </div>
-    
+
     <div class="placeholder"></div>
   </div>
 
@@ -68,11 +67,19 @@
       <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
       Back
     </ion-button>
-    
+
     <ion-button fill="clear" class="nav-btn" (click)="nextCard()" [disabled]="currentCardIndex === totalCards - 1">
       Next
       <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
     </ion-button>
+  </div>
+
+  <!-- Memo Motivational Strip -->
+  <div class="memo-strip" *ngIf="memoTip">
+    <div class="memo-mini">
+      <img src="assets/memo.png" alt="Memo" />
+    </div>
+    <p class="memo-tip-text">{{ memoTip }}</p>
   </div>
 
   <!-- Feedback Message -->

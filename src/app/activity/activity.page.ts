@@ -1,8 +1,9 @@
+// activity/activity.page.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { calendar, checkmarkCircle, time, trendingUp, flame } from 'ionicons/icons';
+import { calendarOutline, checkmarkCircle, time, flame, calendarClearOutline } from 'ionicons/icons';
 import { FlashcardService, StudyStats } from '../services/flashcard.service';
 
 @Component({
@@ -20,7 +21,7 @@ export class ActivityPage implements OnInit {
     streak: 0,
     lastStudyDate: new Date().toISOString()
   };
-  
+
   totalCards: number = 0;
   masteredCards: number = 0;
   masteryRate: number = 0;
@@ -28,84 +29,54 @@ export class ActivityPage implements OnInit {
   recentActivity: any[] = [];
 
   constructor(private flashcardService: FlashcardService) {
-    addIcons({ calendar, checkmarkCircle, time, trendingUp, flame });
+    addIcons({ calendarOutline, checkmarkCircle, time, flame, calendarClearOutline });
   }
 
-  ngOnInit() {
-    this.loadActivityData();
-  }
+  ngOnInit() { this.loadActivityData(); }
+
+  // Refreshes every time the tab is visited
+  ionViewWillEnter() { this.loadActivityData(); }
 
   loadActivityData() {
-    // Get real stats from service
     this.stats = this.flashcardService.getStats();
     this.totalCards = this.flashcardService.getTotalCardsCount();
     this.masteredCards = this.flashcardService.getMasteredCardsCount();
-    
-    // Calculate mastery rate
     this.masteryRate = this.totalCards > 0 ? (this.masteredCards / this.totalCards) * 100 : 0;
-    
-    // Calculate accuracy
-    const totalReviewed = this.stats.correctAnswers + this.stats.incorrectAnswers;
-    this.accuracy = totalReviewed > 0 ? (this.stats.correctAnswers / totalReviewed) * 100 : 0;
-    
-    // Build recent activity from actual data
-    this.buildRecentActivity();
+
+    const totalAnswered = this.stats.correctAnswers + this.stats.incorrectAnswers;
+    this.accuracy = totalAnswered > 0 ? (this.stats.correctAnswers / totalAnswered) * 100 : 0;
+
+    // Pull real study sessions
+    const sessions = this.flashcardService.getStudySessions();
+    this.recentActivity = sessions.map(session => ({
+      deck: session.deckName,
+      cards: session.cardsStudied,
+      correct: session.correctAnswers,
+      accuracy: session.cardsStudied > 0
+        ? Math.round((session.correctAnswers / session.cardsStudied) * 100)
+        : 0,
+      time: this.formatSessionDate(session.date),
+      mastered: session.correctAnswers === session.cardsStudied ? 'All Correct ✓' : 'In Progress'
+    }));
   }
 
-  buildRecentActivity() {
-    const decks = this.flashcardService.getDecks();
-    const allFlashcards: any[] = [];
-    
-    // Manually flatten the array (replacing flatMap)
-    for (let i = 0; i < decks.length; i++) {
-      const deck = decks[i];
-      const cards = this.flashcardService.getFlashcards(deck.id);
-      for (let j = 0; j < cards.length; j++) {
-        const card = cards[j];
-        allFlashcards.push({
-          deckName: deck.name,
-          cardQuestion: card.question,
-          cardAnswer: card.answer,
-          mastered: card.mastered,
-          timesReviewed: card.timesReviewed || 0
-        });
-      }
-    }
+  formatSessionDate(isoString: string): string {
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
 
-    // Get recently reviewed cards (those with timesReviewed > 0)
-    const reviewedCards = [];
-    for (let i = 0; i < allFlashcards.length; i++) {
-      if (allFlashcards[i].timesReviewed > 0) {
-        reviewedCards.push(allFlashcards[i]);
-      }
-    }
-    
-    // Sort by times reviewed (most recent activity simulation)
-    reviewedCards.sort((a, b) => b.timesReviewed - a.timesReviewed);
-    
-    // Take only first 5
-    const topReviewed = reviewedCards.slice(0, 5);
-    
-    this.recentActivity = [];
-    for (let i = 0; i < topReviewed.length; i++) {
-      const card = topReviewed[i];
-      this.recentActivity.push({
-        deck: card.deckName,
-        cards: 1,
-        time: `Reviewed ${card.timesReviewed} time(s)`,
-        mastered: card.mastered ? 'Mastered ✓' : 'In Progress'
-      });
-    }
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays === 1) return 'Yesterday';
+    return `${diffDays} days ago`;
   }
 
   getLastStudyDate(): string {
     if (!this.stats.lastStudyDate) return 'Never';
-    const lastDate = new Date(this.stats.lastStudyDate);
-    const today = new Date();
-    const diffDays = Math.floor((today.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    return `${diffDays} days ago`;
+    return this.formatSessionDate(this.stats.lastStudyDate);
   }
 }

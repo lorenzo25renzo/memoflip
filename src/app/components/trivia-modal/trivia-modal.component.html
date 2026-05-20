@@ -1,0 +1,97 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Generate from Trivia</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close-outline" slot="icon-only" style="color:white"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="trivia-modal-content">
+
+  <!-- Memo intro -->
+  <div class="memo-intro">
+    <div class="memo-img">
+      <img src="assets/memo.png" alt="Memo" />
+    </div>
+    <div class="memo-bubble">
+      <p>Pick a topic and I'll build a flashcard deck for you automatically! 🎉</p>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="isLoadingCategories">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Loading categories...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="error-state" *ngIf="errorMessage && !isLoadingCategories">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Form -->
+  <div class="form-card" *ngIf="!isLoadingCategories && !errorMessage">
+
+    <!-- Category -->
+    <div class="form-group">
+      <label class="form-label">📚 Category</label>
+      <div class="select-wrapper">
+        <ion-select
+          [(ngModel)]="selectedCategoryId"
+          interface="action-sheet"
+          placeholder="Select a category"
+          class="custom-select">
+          <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
+            {{ cat.name }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+
+    <!-- Difficulty -->
+    <div class="form-group">
+      <label class="form-label">⚡ Difficulty</label>
+      <div class="pill-row">
+        <ion-button
+          *ngFor="let d of difficulties"
+          [fill]="selectedDifficulty === d.value ? 'solid' : 'outline'"
+          [color]="selectedDifficulty === d.value ? 'primary' : 'medium'"
+          class="pill-btn"
+          (click)="selectedDifficulty = d.value">
+          {{ d.label }}
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Number of Cards -->
+    <div class="form-group">
+      <label class="form-label">🃏 Number of Cards</label>
+      <div class="pill-row">
+        <ion-button
+          *ngFor="let a of amounts"
+          [fill]="selectedAmount === a ? 'solid' : 'outline'"
+          [color]="selectedAmount === a ? 'primary' : 'medium'"
+          class="pill-btn"
+          (click)="selectedAmount = a">
+          {{ a }}
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Generate -->
+    <ion-button
+      expand="block"
+      class="generate-btn"
+      (click)="generateDeck()"
+      [disabled]="isGenerating">
+      <ion-spinner *ngIf="isGenerating" name="crescent" slot="start"></ion-spinner>
+      <ion-icon *ngIf="!isGenerating" name="sparkles-outline" slot="start"></ion-icon>
+      {{ isGenerating ? 'Memo is building your deck...' : 'Generate Deck' }}
+    </ion-button>
+
+  </div>
+</ion-content>

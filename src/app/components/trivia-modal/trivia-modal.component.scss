@@ -1,0 +1,117 @@
+.trivia-modal-content {
+  --background: #f5f3ff;
+
+  .memo-intro {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+
+    .memo-img {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+
+    .memo-bubble {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 16px 16px 16px 4px;
+      padding: 10px 14px;
+      flex: 1;
+
+      p {
+        color: white;
+        font-size: 13px;
+        margin: 0;
+        line-height: 1.5;
+        font-style: italic;
+      }
+    }
+  }
+
+  .loading-state, .error-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: #888;
+
+    ion-spinner {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 12px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    ion-icon {
+      font-size: 48px;
+      color: #f472b6;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    p { font-size: 15px; margin: 0; }
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 24px;
+    margin: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.12);
+
+    .form-group {
+      margin-bottom: 24px;
+
+      .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      .select-wrapper {
+        border: 2px solid #e9d5ff;
+        border-radius: 12px;
+        overflow: hidden;
+
+        .custom-select {
+          width: 100%;
+          padding: 4px 8px;
+          --color: #333;
+          --placeholder-color: #aaa;
+        }
+      }
+
+      .pill-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+
+        .pill-btn {
+          flex: 1;
+          --border-radius: 12px;
+          height: 44px;
+          font-size: 13px;
+          font-weight: 600;
+          text-transform: none;
+          margin: 0;
+        }
+      }
+    }
+
+    .generate-btn {
+      --background: linear-gradient(135deg, #667eea, #764ba2);
+      --border-radius: 50px;
+      height: 52px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: none;
+      margin-top: 8px;
+    }
+  }
+}

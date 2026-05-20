@@ -224,3 +224,28 @@
     }
   }
 }
+  // Memo motivational strip
+  .memo-strip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 20px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 10px 14px;
+
+    .memo-mini {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .memo-tip-text {
+      color: white;
+      font-size: 13px;
+      font-style: italic;
+      margin: 0;
+      line-height: 1.4;
+    }
+  }

@@ -1,12 +1,25 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>MemoFlip</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="createNewDeck()">
+        <ion-icon name="albums-outline" slot="icon-only" style="color:white"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="home-container">
-  <!-- Header Section with Logo -->
-  <div class="header-section">
-    <!-- TODO: Add MemoFlip Logo Here - Put logo.png in src/assets/ -->
-    <img src="assets/logo.png" alt="MemoFlip Logo" class="logo">
-    
-    
-    <h1 class="app-title">MemoFlip</h1>
-    <p class="tagline">Ready to study?</p>
+
+  <!-- Memo Banner -->
+  <div class="memo-banner">
+    <div class="memo-avatar">
+      <img src="assets/memo.png" alt="Memo" />
+    </div>
+    <div class="memo-bubble">
+      <p class="memo-text">{{ memoMessage }}</p>
+      <span class="memo-name">— Memo 🧠</span>
+    </div>
   </div>
 
   <!-- Action Buttons -->
@@ -15,11 +28,20 @@
       <ion-icon name="albums-outline" slot="start"></ion-icon>
       + New Deck
     </ion-button>
-    
     <ion-button expand="block" class="create-card-btn" (click)="openCreateCardModal()">
       <ion-icon name="add-circle-outline" slot="start"></ion-icon>
       Create a Card
     </ion-button>
+  </div>
+
+  <!-- Trivia Banner -->
+  <div class="trivia-banner" (click)="openTriviaModal()">
+    <div class="trivia-banner-left">
+      <span class="trivia-badge">✨ NEW</span>
+      <p class="trivia-title">Generate a Deck from Trivia</p>
+      <p class="trivia-sub">Let Memo build a deck for you using real quiz questions</p>
+    </div>
+    <div class="trivia-arrow">›</div>
   </div>
 
   <!-- My Decks Section -->
@@ -34,7 +56,6 @@
         <ion-button fill="clear" class="delete-deck-btn" (click)="deleteDeck(deck, $event)">
           <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
         </ion-button>
-        
         <ion-card-header>
           <ion-card-title>{{ deck.name }}</ion-card-title>
           <ion-card-subtitle>{{ deck.cardCount }} cards</ion-card-subtitle>
@@ -44,16 +65,18 @@
         </ion-card-content>
       </ion-card>
     </div>
-    
+
     <ng-template #noDecks>
       <div class="no-decks">
-        <ion-icon name="albums-outline"></ion-icon>
-        <p>No decks yet. Create your first deck!</p>
+        <div class="memo-empty">
+          <img src="assets/memo.png" alt="Memo" />
+        </div>
+        <p>Memo is waiting! Create your first deck to start studying.</p>
       </div>
     </ng-template>
   </div>
 
-  <!-- User Stats Section -->
+  <!-- Stats Section -->
   <div class="stats-section">
     <div class="stats-card">
       <div class="stat-item">
@@ -70,4 +93,5 @@
       </div>
     </div>
   </div>
+
 </ion-content>
