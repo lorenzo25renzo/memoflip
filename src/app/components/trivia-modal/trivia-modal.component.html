@@ -39,16 +39,14 @@
     <!-- Category -->
     <div class="form-group">
       <label class="form-label">📚 Category</label>
-      <div class="select-wrapper">
-        <ion-select
-          [(ngModel)]="selectedCategoryId"
-          interface="action-sheet"
-          placeholder="Select a category"
-          class="custom-select">
-          <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
-            {{ cat.name }}
-          </ion-select-option>
-        </ion-select>
+      <div class="category-list">
+        <div
+          *ngFor="let cat of categories"
+          class="category-item"
+          [class.active]="selectedCategoryId === cat.id"
+          (click)="setCategory(cat.id)">
+          {{ cat.name }}
+        </div>
       </div>
     </div>
 
@@ -56,14 +54,24 @@
     <div class="form-group">
       <label class="form-label">⚡ Difficulty</label>
       <div class="pill-row">
-        <ion-button
-          *ngFor="let d of difficulties"
-          [fill]="selectedDifficulty === d.value ? 'solid' : 'outline'"
-          [color]="selectedDifficulty === d.value ? 'primary' : 'medium'"
-          class="pill-btn"
-          (click)="selectedDifficulty = d.value">
-          {{ d.label }}
-        </ion-button>
+        <div
+          class="pill"
+          [class.active]="selectedDifficulty === 'easy'"
+          (click)="setDifficulty('easy')">
+          😊 Easy
+        </div>
+        <div
+          class="pill"
+          [class.active]="selectedDifficulty === 'medium'"
+          (click)="setDifficulty('medium')">
+          🤔 Medium
+        </div>
+        <div
+          class="pill"
+          [class.active]="selectedDifficulty === 'hard'"
+          (click)="setDifficulty('hard')">
+          🔥 Hard
+        </div>
       </div>
     </div>
 
@@ -71,15 +79,16 @@
     <div class="form-group">
       <label class="form-label">🃏 Number of Cards</label>
       <div class="pill-row">
-        <ion-button
-          *ngFor="let a of amounts"
-          [fill]="selectedAmount === a ? 'solid' : 'outline'"
-          [color]="selectedAmount === a ? 'primary' : 'medium'"
-          class="pill-btn"
-          (click)="selectedAmount = a">
-          {{ a }}
-        </ion-button>
+        <div class="pill" [class.active]="selectedAmount === 5" (click)="setAmount(5)">5</div>
+        <div class="pill" [class.active]="selectedAmount === 10" (click)="setAmount(10)">10</div>
+        <div class="pill" [class.active]="selectedAmount === 15" (click)="setAmount(15)">15</div>
+        <div class="pill" [class.active]="selectedAmount === 20" (click)="setAmount(20)">20</div>
       </div>
+    </div>
+
+    <!-- Selected category confirmation -->
+    <div class="selected-info" *ngIf="getSelectedCategoryName()">
+      <span>🗂️ Selected: <strong>{{ getSelectedCategoryName() }}</strong></span>
     </div>
 
     <!-- Generate -->

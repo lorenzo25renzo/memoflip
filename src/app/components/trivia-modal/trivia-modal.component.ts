@@ -1,11 +1,9 @@
-// components/trivia-modal/trivia-modal.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonHeader, IonToolbar, IonTitle, IonButtons, IonButton,
-  IonContent, IonItem, IonLabel, IonSelect, IonSelectOption,
-  IonIcon, IonSpinner, ModalController, ToastController
+  IonContent, IonIcon, IonSpinner, ModalController, ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { closeOutline, sparklesOutline, alertCircleOutline } from 'ionicons/icons';
@@ -22,8 +20,7 @@ type Difficulty = 'easy' | 'medium' | 'hard';
   imports: [
     CommonModule, FormsModule,
     IonHeader, IonToolbar, IonTitle, IonButtons, IonButton,
-    IonContent, IonItem, IonLabel, IonSelect, IonSelectOption,
-    IonIcon, IonSpinner
+    IonContent, IonIcon, IonSpinner
   ]
 })
 export class TriviaModalComponent implements OnInit {
@@ -34,14 +31,6 @@ export class TriviaModalComponent implements OnInit {
   isLoadingCategories: boolean = true;
   isGenerating: boolean = false;
   errorMessage: string = '';
-
-  difficulties: { value: Difficulty; label: string }[] = [
-    { value: 'easy', label: '😊 Easy' },
-    { value: 'medium', label: '🤔 Medium' },
-    { value: 'hard', label: '🔥 Hard' }
-  ];
-
-  amounts = [5, 10, 15, 20];
 
   constructor(
     private modalController: ModalController,
@@ -61,6 +50,22 @@ export class TriviaModalComponent implements OnInit {
       this.errorMessage = 'Could not load categories. Check your internet connection.';
       this.isLoadingCategories = false;
     }
+  }
+
+  setCategory(id: number) {
+    this.selectedCategoryId = id;
+  }
+
+  getSelectedCategoryName(): string {
+    return this.categories.find(c => c.id === this.selectedCategoryId)?.name || '';
+  }
+
+  setDifficulty(value: Difficulty) {
+    this.selectedDifficulty = value;
+  }
+
+  setAmount(value: number) {
+    this.selectedAmount = value;
   }
 
   async generateDeck() {
@@ -107,5 +112,7 @@ export class TriviaModalComponent implements OnInit {
     }
   }
 
-  dismiss() { this.modalController.dismiss(); }
+  dismiss() {
+    this.modalController.dismiss();
+  }
 }
