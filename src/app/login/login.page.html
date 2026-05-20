@@ -1,29 +1,24 @@
 <ion-content class="login-container" scroll="false">
   
-  <!-- Purple Header Background -->
   <div class="purple-header"></div>
   
   <div class="login-wrapper">
     
-    <!-- Logo Section with Purple Background -->
     <div class="logo-section">
       <div class="logo-container">
         <div class="logo-placeholder">
-          <span class="logo-emoji">📚</span>
+          <img src="assets/logo.png" alt="MemoFlip Logo" class="app-logo-img" />
         </div>
         <h1 class="app-title">MemoFlip</h1>
       </div>
     </div>
 
-    <!-- White Card Content -->
     <div class="white-card">
       
-      <!-- Welcome Message -->
       <div class="welcome-section">
         <h2>Welcome Back!</h2>
       </div>
 
-      <!-- Form -->
       <div class="form-section">
         <div class="input-group">
           <ion-label class="input-label">Email Address</ion-label>
@@ -61,14 +56,12 @@
         </ion-button>
       </div>
 
-      <!-- OR Divider -->
       <div class="divider">
         <div class="divider-line"></div>
         <span class="divider-text">OR CONTINUE WITH</span>
         <div class="divider-line"></div>
       </div>
 
-      <!-- Social Buttons -->
       <div class="social-section">
         <ion-button expand="block" class="google-btn" (click)="googleLogin()">
           <ion-icon name="logo-google" slot="start"></ion-icon>
@@ -81,7 +74,6 @@
         </ion-button>
       </div>
 
-      <!-- Sign Up Link -->
       <div class="signup-link">
         <span>Don't have an account? </span>
         <ion-text class="signup-text" (click)="goToRegister()">Sign Up</ion-text>
